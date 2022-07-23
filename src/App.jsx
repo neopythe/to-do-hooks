@@ -15,10 +15,6 @@ export default function App() {
     JSON.parse(localStorage.getItem('todos')) ?? []
   )
 
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }, [todos])
-
   return (
     <Paper
       style={{
