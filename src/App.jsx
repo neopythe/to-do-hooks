@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
@@ -10,12 +10,13 @@ import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
 export default function App() {
-  const initialTodos = [
-    { id: 1, task: 'Milk the dog', completed: true },
-    { id: 2, task: 'Milk the cat', completed: false },
-    { id: 3, task: 'Grow a beard', completed: false },
-  ]
-  const [todos, setTodos] = useState(initialTodos)
+  const [todos, setTodos] = useState(
+    JSON.parse(localStorage.getItem('todos')) ?? []
+  )
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }, [todos])
 
   const addTodo = (task) =>
     setTodos([...todos, { id: uuidv4(), task, completed: false }])
@@ -57,12 +58,14 @@ export default function App() {
       >
         <Grid item xs={11} md={8} lg={4}>
           <TodoForm addTodo={addTodo} />
-          <TodoList
-            todos={todos}
-            removeTodo={removeTodo}
-            toggleTodo={toggleTodo}
-            editTodo={editTodo}
-          />
+          {todos.length > 0 && (
+            <TodoList
+              todos={todos}
+              removeTodo={removeTodo}
+              toggleTodo={toggleTodo}
+              editTodo={editTodo}
+            />
+          )}
         </Grid>
       </Grid>
     </Paper>
