@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import { Typography } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import AppBar from '@mui/material/AppBar'
@@ -11,12 +12,26 @@ import TodoList from './components/TodoList'
 export default function App() {
   const initialTodos = [
     { id: 1, task: 'Milk the dog', completed: true },
-    { id: 1, task: 'Milk the cat', completed: false },
-    { id: 1, task: 'Grow a beard', completed: false },
+    { id: 2, task: 'Milk the cat', completed: false },
+    { id: 3, task: 'Grow a beard', completed: false },
   ]
   const [todos, setTodos] = useState(initialTodos)
-  const addTodo = (task) => {
-    setTodos([...todos, { id: 4, task, completed: false }])
+
+  const addTodo = (task) =>
+    setTodos([...todos, { id: uuidv4(), task, completed: false }])
+
+  const removeTodo = (id) => setTodos(todos.filter((todo) => todo.id !== id))
+
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    )
+  }
+
+  const editTodo = (id, task) => {
+    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, task } : todo)))
   }
 
   return (
@@ -42,7 +57,12 @@ export default function App() {
       >
         <Grid item xs={11} md={8} lg={4}>
           <TodoForm addTodo={addTodo} />
-          <TodoList todos={todos} />
+          <TodoList
+            todos={todos}
+            removeTodo={removeTodo}
+            toggleTodo={toggleTodo}
+            editTodo={editTodo}
+          />
         </Grid>
       </Grid>
     </Paper>
