@@ -12,12 +12,14 @@ export default function EditTodoForm({ id, task, editTodo, toggleIsEditing }) {
         reset()
         toggleIsEditing()
       }}
+      style={{ margin: '0 1rem' }}
     >
       <TextField
         margin="normal"
         value={value}
         onChange={handleChange}
         fullWidth
+        autoFocus
       />
     </form>
   )
