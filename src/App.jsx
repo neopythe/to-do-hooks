@@ -34,8 +34,17 @@ export default function App() {
           <Typography color="inherit">to-dos with hooks</Typography>
         </Toolbar>
       </AppBar>
-      <TodoForm addTodo={addTodo} />
-      <TodoList todos={todos} />
+      <Grid
+        container
+        spacing={1}
+        justifyContent="center"
+        style={{ marginTop: '1rem' }}
+      >
+        <Grid item xs={11} md={8} lg={4}>
+          <TodoForm addTodo={addTodo} />
+          <TodoList todos={todos} />
+        </Grid>
+      </Grid>
     </Paper>
   )
 }
